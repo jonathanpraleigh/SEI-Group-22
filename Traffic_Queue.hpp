@@ -1,8 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Traffic_Queue.hpp
- ** Created by Kaitlin Lynch on 5/29/18
- ** Contributors:
+ ** Last Updated by Kaitlin Lynch on 5/30/18
  ** Description: header file for the Traffic_Queue class. One instance
  should exist for each direction of travel legally possible from a
  given direction of origin in an intersection.
