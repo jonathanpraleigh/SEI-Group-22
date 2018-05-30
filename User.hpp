@@ -1,8 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: User.hpp
- ** Created by Kaitlin Lynch on 5/29/18
- ** Contributors:
+ ** Last Updated by Kaitlin Lynch on 5/30/18
  ** Description: header file for the User class. Users will begin as
  vehicles but may also be pedestrians, bikes, public transport, etc.
  in future iterations.
