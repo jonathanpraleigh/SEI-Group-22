@@ -94,7 +94,7 @@ double Traffic_Queue::calcAverageWaitTime()
  ** addUser
  ** Description: adds a User to the back of the queue
  **********************************************************************/
-void Traffic_Queue::addUser(class User u)
+void Traffic_Queue::addUser(class User &u)
 {
     users_in_queue.push_back(u);
 }
@@ -115,7 +115,7 @@ void Traffic_Queue::removeUserFromFront()
  ** Description: removes Users from the front of the queue until a
  specific User is reached.
  **********************************************************************/
-void Traffic_Queue::removeUntilUser(class User u)
+void Traffic_Queue::removeUntilUser(class User &u)
 {
     while (users_in_queue.front().getId() != u.getId())
     {
