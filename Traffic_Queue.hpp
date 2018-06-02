@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Traffic_Queue.hpp
- ** Last Updated by Kaitlin Lynch on 5/30/18
+ ** Last Updated by Kaitlin Lynch on 6/1/18
  ** Description: header file for the Traffic_Queue class. One instance
  should exist for each direction of travel legally possible from a
  given direction of origin in an intersection.
@@ -11,12 +11,9 @@
 #define Traffic_Queue_hpp
 
 #include <stdio.h>
-#include <utility>
 #include <deque>
 #include "User.hpp"
 
-using std::string;
-using std::pair;
 using std::deque;
 
 class Traffic_Queue
@@ -38,10 +35,10 @@ public:
     void setTotalWaitTime(double);
     double getTotalWaitTime();
     double calcAverageWaitTime();
-    void addUser(class User);
+    void addUser(class User&);
     void removeUserFromFront();
-    void removeUntilUser(class User);
-    class User getFirstUserInLine();
+    void removeUntilUser(class User&);
+    class User* getFirstUserInLine();
 };
 
 #endif /* Traffic_Queue_hpp */
