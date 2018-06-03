@@ -14,7 +14,7 @@
 bool done, em_or_not;
 char emergency_vehicles_or_not;
 enum Directions { north, east, south, west };
-int num_of_cars, num_of_directions;
+int num_of_cars, num_of_directions, selection;
 struct option{
 	std::string name;
 	void(*func_ptr)();
@@ -33,26 +33,4 @@ void randomize_cars(int, int, bool);
 void initialize_simulation();
 void build_traffic_queue_file();
 void exit_simulation();
-
-
-//Specific other tests here used for function prototype pointers stored in option struct.
-
-
-/*Function Pointers*/
-void(*ptr_initialize_simulation)() = &initialize_simulation;
-void(*ptr_exit_simulation)() = &exit_simulation;
-
-
-/*Menu Options*/
-struct option start_simulation = {
-	"Start Simulation", //option name
-	ptr_initialize_simulation //function pointer
-};
-struct option exit_menu = {
-	"Exit", //option name
-	ptr_exit_simulation // function pointer
-};
-
-std::vector<struct option>options_vector{ start_simulation, exit_menu }; //update with other testing options
-
 #endif 
