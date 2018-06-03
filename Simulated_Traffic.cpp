@@ -146,7 +146,18 @@ void build_traffic_queue_file()
 	{
 		of << "Car: " << i << "\n";
 		of << "Time: " << list_of_cars[i].arrival_time << "\n";
-		of << "Direction: " << list_of_cars[i].direction << "\n";
+		switch(list_of_cars[i].direction)
+		{
+			case north :
+			direction_name = "north";
+			case east:
+			direction_name = "east";
+			case south: 
+			direction_name = "south";
+			case west:
+			direction_name = "west";
+		}
+		of << "Direction: " << direction_name << "\n";
 		of << "Speed: " << list_of_cars[i].initial_speed << "\n";
 		of << "Emergency: " << list_of_cars[i].is_emergency_vehicle << "\n";
 	}
