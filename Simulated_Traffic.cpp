@@ -1,10 +1,11 @@
 #include "Simulated_Traffic.hpp"
 #include <iostream>
-#include<iomanip>
-#include<fstream>
+#include <string>
+#include <iomanip>
+#include <fstream>
 #include <random>
 #include <ctime>
-#include<limits>
+#include <limits>
 #include <algorithm>
 
 /**********************************************************************
@@ -16,16 +17,43 @@
 
 void traffic_simulation_menu()
 {
+	/*Function Pointers*/
+	void(*ptr_initialize_simulation)() = &initialize_simulation;
+	void(*ptr_exit_simulation)() = &exit_simulation;
+
+
+	/*Menu Options*/
+	struct option start_simulation = {
+		"Start Simulation", //option name
+		ptr_initialize_simulation //function pointer
+	};
+	struct option exit_menu = {
+		"Exit", //option name
+		ptr_exit_simulation // function pointer
+	};
+
+	std::vector<struct option>options_vector;
+	options_vector.push_back(start_simulation);
+	options_vector.push_back(exit_menu);
+
 	done = false;
 
-	while (!done)
+	while (done == false)
 	{
 		std::cout << "Options:\n----------\n";
-		
-		for(int i=0; i < options_vector.size; i++)
+
+		for (int i = 0; i < options_vector.size(); i++)
 		{
 			std::cout << "(" << i + 1 << ") " << options_vector[i].name << "\n";
 		}
+
+		std::cout << "Selection: ";
+		while (!(std::cin >> selection) && selection > options_vector.size() && selection < 1)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		options_vector[selection - 1].func_ptr();
 	}
 }
 
@@ -44,24 +72,28 @@ void initialize_simulation()
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
-	std::cout << "\n# of approach direction: ";
+	std::cout << "# of approach direction: ";
 	while (!(std::cin >> num_of_directions) && num_of_directions > 4 && num_of_directions < 2)
 	{
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
-	std::cout << "\nInclude emergency vehicles(y/n): ";
-	while (std::cin >> emergency_vehicles_or_not && (emergency_vehicles_or_not != 'y' || emergency_vehicles_or_not != 'n' || emergency_vehicles_or_not != 'Y' || emergency_vehicles_or_not != 'N'))
-	{
-		std::cin.clear();
-		std::cout << "\nPlease enter y or n: ";
-	}
+	std::cout << "Include emergency vehicles(y/n): ";
 
-	if(emergency_vehicles_or_not == 'y' || emergency_vehicles_or_not == 'Y')
+	do
 	{
-		em_or_not = true;
-	}
-	else em_or_not = false;
+		std::cin >> emergency_vehicles_or_not;
+
+		if (emergency_vehicles_or_not == 'Y' || emergency_vehicles_or_not == 'y')
+		{
+			em_or_not = true;
+		}
+
+		if (emergency_vehicles_or_not == 'N' || emergency_vehicles_or_not == 'n')
+		{
+			em_or_not = false;
+		}
+	} while (emergency_vehicles_or_not != 'Y' && emergency_vehicles_or_not != 'y' && emergency_vehicles_or_not != 'N' && emergency_vehicles_or_not != 'n');
 
 	randomize_cars(num_of_cars, num_of_directions, em_or_not);
 	build_traffic_queue_file();
@@ -85,7 +117,7 @@ void randomize_cars(int number_of_cars, int approach_directions, bool emergency_
 		temp.initial_speed = rand() % (SPEED_LIMIT_MAX - SPEED_LIMIT_MIN + 1) + SPEED_LIMIT_MIN;
 		if (emergency_vehicles == 0)
 		{
-			temp.is_emergency_vehicle = false; 
+			temp.is_emergency_vehicle = false;
 		}
 		else
 		{
@@ -113,7 +145,7 @@ void build_traffic_queue_file()
 	for (int i = 0; i < list_of_cars.size(); i++)
 	{
 		of << "Car: " << i << "\n";
-		of << "Time: "<< list_of_cars[i].arrival_time << "\n";
+		of << "Time: " << list_of_cars[i].arrival_time << "\n";
 		of << "Direction: " << list_of_cars[i].direction << "\n";
 		of << "Speed: " << list_of_cars[i].initial_speed << "\n";
 		of << "Emergency: " << list_of_cars[i].is_emergency_vehicle << "\n";
