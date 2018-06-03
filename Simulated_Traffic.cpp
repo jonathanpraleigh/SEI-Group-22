@@ -146,20 +146,31 @@ void build_traffic_queue_file()
 	{
 		of << "Car: " << i << "\n";
 		of << "Time: " << list_of_cars[i].arrival_time << "\n";
-		switch(list_of_cars[i].direction)
-		{
-			case north :
-			direction_name = "north";
-			case east:
-			direction_name = "east";
-			case south: 
-			direction_name = "south";
-			case west:
-			direction_name = "west";
-		}
+                if ( list_of_cars[i].direction == 1 )
+                {
+                        direction_name = "north";
+                }
+                else if ( list_of_cars[i].direction == 2)
+                {
+                        direction_name = "east";
+                }
+                else if ( list_of_cars[i].direction == 3)
+                {
+                        direction_name = "south";
+                }
+                else if ( list_of_cars[i].direction == 4)
+                {
+                        direction_name = "west";
+                }
+
 		of << "Direction: " << direction_name << "\n";
 		of << "Speed: " << list_of_cars[i].initial_speed << "\n";
-		of << "Emergency: " << list_of_cars[i].is_emergency_vehicle << "\n";
+		if ( list_of_cars[i].is_emergency_vehicle == true)
+		{
+			override_type_name = "emergency";
+		}
+		else { override_type_name = "none"}
+		of << "UserType: " << override_type_name << "\n";
 	}
 
 	of.close();
