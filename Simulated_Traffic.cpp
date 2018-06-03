@@ -24,7 +24,7 @@ void traffic_simulation_menu()
 
 	/*Menu Options*/
 	struct option start_simulation = {
-		"Start Simulation", //option name
+		"Create Simulation Data", //option name
 		ptr_initialize_simulation //function pointer
 	};
 	struct option exit_menu = {
