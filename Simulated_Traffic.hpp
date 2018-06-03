@@ -15,7 +15,7 @@ bool done, em_or_not;
 char emergency_vehicles_or_not;
 enum Directions { north, east, south, west };
 int num_of_cars, num_of_directions, selection;
-std::string direction_name;
+std::string direction_name, override_type_name;
 struct option{
 	std::string name;
 	void(*func_ptr)();
