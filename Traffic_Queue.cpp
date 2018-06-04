@@ -16,8 +16,10 @@
  **********************************************************************/
 Traffic_Queue::Traffic_Queue()
 {
-    heading.first = "unknown";
-    heading.second = "unknown";
+    // heading.first = "unknown";
+    // heading.second = "unknown";
+
+    heading = "unknown";
     mode = "unknown";
     total_wait_time = 0;
 }
@@ -28,7 +30,9 @@ Traffic_Queue::Traffic_Queue()
  ** Description: sets heading and mode. Sets
  total_wait_time to 0.
  **********************************************************************/
-Traffic_Queue::Traffic_Queue(pair<string, string> h, string m){
+// Traffic_Queue::Traffic_Queue(pair<string, string> h, string m){
+Traffic_Queue::Traffic_Queue(string h, string m){
+
     heading = h;
     mode = m;
     total_wait_time = 0;
@@ -41,15 +45,27 @@ int Traffic_Queue::getSize()
 }
 
 
-void Traffic_Queue::setHeading(string h1, string h2)
+/*void Traffic_Queue::setHeading(string h1, string h2)
 {
     heading.first = h1;
     heading.second = h2;
 
+}*/
+
+void Traffic_Queue::setHeading(string h)
+{
+    heading = h;
+
 }
 
 
-pair<string, string> Traffic_Queue::getHeading()
+
+/*pair<string, string> Traffic_Queue::getHeading()
+{
+    return heading;
+} */
+
+string Traffic_Queue::getHeading()
 {
     return heading;
 }

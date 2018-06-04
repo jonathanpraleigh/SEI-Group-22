@@ -8,6 +8,7 @@
  **********************************************************************/
 
 #include "User.hpp"
+#include <ctime>
 
 /**********************************************************************
  ** Default Constructor
@@ -16,13 +17,15 @@
 **********************************************************************/
 User::User ()
 {
+
     if (num_users < 1)
         num_users = 0;
     else num_users++;
 
     id = num_users;
-    heading.first = "unknown";
-    heading.second = "unknown";
+    /*heading.first = "unknown";
+    heading.second = "unknown";*/
+    heading = "unknown";
     mode = "unknown";
     type = "unknown";
     time_arrived = clock()/1000;    // clock ticks converted to seconds
@@ -34,7 +37,8 @@ User::User ()
  ** Description: Sets heading, mode, and type. Sets
  time_arrived to current clock time in seconds.
  **********************************************************************/
-User::User (pair<string, string> h, string m, string t, int s)
+//User::User (pair<string, string> h, string m, string t, int s)
+User::User (string h, string m, string t, int s)
 {
     if (num_users < 1)
         num_users = 0;
@@ -43,7 +47,7 @@ User::User (pair<string, string> h, string m, string t, int s)
     heading = h;
     mode = m;
     type = t;
-    time_arrived = clock()/1000;    // clock ticks converted to seconds
+//    time_arrived = clock()/1000;    // clock ticks converted to seconds
     speed = s;
 }
 
@@ -54,7 +58,8 @@ User::User (pair<string, string> h, string m, string t, int s)
  time_arrived to time first detected by sensor in seconds. Accounts for
  any delay when sending information from sensors to system.
  **********************************************************************/
-User::User (pair<string, string> h, string m, string t, double ta, int s)
+//User::User (pair<string, string> h, string m, string t, double ta, int s)
+User::User (string h, string m, string t, double ta, int s)
 {
     if (num_users < 1)
         num_users = 0;
@@ -80,18 +85,27 @@ int User::getId()
 }
 
 
-void User::setHeading (string h1, string h2)
+/*void User::setHeading (string h1, string h2)
 {
     heading.first = h1;
     heading.second = h2;
+}*/
+
+
+void User::setHeading (string h)
+{
+    heading = h;
 }
 
+/*pair<string, string> User::getHeading()
+{
+    return heading;
+}*/
 
-pair<string, string> User::getHeading()
+string User::getHeading()
 {
     return heading;
 }
-
 
 void User::setMode (string m)
 {
