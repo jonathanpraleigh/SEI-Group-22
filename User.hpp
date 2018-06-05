@@ -12,37 +12,26 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <utility>
 
 using std::string;
-using std::pair;
 
 class User
 {
 private:
-    int num_users;              // total number users for unique id;
+    static int num_users;               // total number users for unique id;
     int id;                            // unique user id;
-    //pair<string, string> heading;      // direction user is heading, determined by lane
-    string heading;
+    string heading;                    // direction user is heading, determined by lane
     string mode;                       // mode of transportation (e.g., vehicle, pedestrian, bike)
     string type;                       // type of override user (e.g., emergency, public_transport)
     double time_arrived;               // time (seconds) when user detected entering system
     int speed;                         // speed of user when first detected by sensors
 
 public:
-    // default constructor
     User ();
-    // testing constructor (time_arrived set by system)
-    // User (pair<string, string> h, string m, string t, int s);
-    User (string h, string m, string t, int s);
-    // sensor constructor (time_arrived received from sensors)
-    // User (pair<string, string> h, string m, string t, double ta, int s);
     User (string h, string m, string t, double ta, int s);
     void setId (int);
     int getId();
-    //void setHeading (string h1, string h2);
     void setHeading (string h);
-    //pair<string, string> getHeading();
     string getHeading();
     void setMode (string m);
     string getMode();
@@ -54,5 +43,4 @@ public:
     int getSpeed();
     double calcTimeWaited();
 };
-
 #endif /* User_hpp */
