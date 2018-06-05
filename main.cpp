@@ -96,6 +96,7 @@ int main(int argc, const char * argv[]) {
             newWestTQ.addUser(allUsers[i]);
         }
     }
+  
     return 0;
 
 }

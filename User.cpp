@@ -18,6 +18,7 @@ User::User ()
 {
     id = num_users();
     heading = "unknown";
+    origin = "unknown";
     mode = "unknown";
     type = "unknown";
     time_arrived = 0;
@@ -30,10 +31,11 @@ User::User ()
  time_arrived to time first detected by sensor in seconds. Accounts for
  any delay when sending information from sensors to system.
  **********************************************************************/
-User::User (string h, string m, string t, double ta, int s)
+User::User (string h, string o, string m, string t, double ta, int s)
 {
     id = num_users();
     heading = h;
+    origin = o;
     mode = m;
     type = t;
     time_arrived = ta;
@@ -63,6 +65,18 @@ string User::getHeading()
 {
     return heading;
 }
+
+void User::setOrigin (string o)
+{
+    heading = o;
+}
+
+
+string User::getOrigin()
+{
+    return origin;
+}
+
 
 void User::setMode (string m)
 {
