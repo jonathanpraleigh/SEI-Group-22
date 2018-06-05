@@ -1,138 +1,136 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Light_Direction_Package.cpp
- ** Last Updated by Kaitlin Lynch on 6/4/18
+ ** Last Updated by Kaitlin Lynch on 6/5/18
  ** Description: method file for the Light_Direction_Package class. One instance
  should exist for each direction of origin legally possible at an intersection.
  **********************************************************************/
 
 #include "Light_Direction_Package.hpp"
 
-/**********************************************************************
- ** Default Constructor
- ** Description: sets origin direction to unknown
- **********************************************************************/
-Light_Direction_Package::Light_Direction_Package()
+void Light_Direction_Package::setOriginDirection (string od)
 {
-    origin_direction = "unknown";
+    origin_direction = od;
+}
+
+
+string Light_Direction_Package::getOriginDirection ()
+{
+    return origin_direction;
 }
 
 
 /**********************************************************************
- ** Constructor
- ** Description: sets origin direction. For each lanes (left, center,
- right) with a value > 0, heading of queue and light is updated based
- on direction of origin
+ ** getLanes
+ ** Description: returns a pointer to the list of lanes
  **********************************************************************/
-Light_Direction_Package::Light_Direction_Package(string o, int l, int c, int r)
+vector<Traffic_Queue*>* Light_Direction_Package::getLanes()
 {
-    origin_direction = o;
-    if (l > 0)
-    {
-        determineHeadingByOriginDirection("left");
-        left_turn_lane.setMode("vehicle");
-    }
-
-    if (c > 0)
-    {
-        determineHeadingByOriginDirection("center");
-        center_lane.setMode("vehicle");
-    }
-
-    if (r > 0)
-    {
-        determineHeadingByOriginDirection("right");
-        right_turn_lane.setMode("vehicle");
-    }
-        
-
+    return &lanes;
 }
 
 
 /**********************************************************************
- ** determineHeadingByOriginDirection
- ** Description: sets the heading for the light and queue of a give lane
- based on the direction of origin
+ ** getLights
+ ** Description: returns a pointer to the list of lights
  **********************************************************************/
-void Light_Direction_Package::determineHeadingByOriginDirection(string lane)
+vector<Traffic_Light*>* Light_Direction_Package::getLights()
 {
-    // set left lane heading
+    return &lights;
+}
+
+
+/**********************************************************************
+ ** createLaneAndLight
+ ** Description: creates the lane and light for a given direction (i.e.,
+ left, center, right).
+ **********************************************************************/
+void Light_Direction_Package::createLaneAndLight(string lane)
+{
+    Traffic_Queue* temp_lane;
+    Traffic_Light* temp_light;
+    string heading = _determineHeadingByOriginDirection(lane);
+    temp_lane = new Traffic_Queue(heading);
+    temp_light = new Traffic_Light(heading);
+    lanes.push_back(temp_lane);
+    lights.push_back(temp_light);
+}
+
+
+/**********************************************************************
+ ** _determineHeadingByOriginDirection
+ ** Description: returns the heading for the light and queue of a give lane
+ based on the direction of origin.
+ **********************************************************************/
+string Light_Direction_Package::_determineHeadingByOriginDirection(string lane)
+{
+    // set left heading
     if (lane.compare("left") == 0)
     switch(origin_direction[0])
     {
         case 'n':
         {
-            left_turn_lane.setHeading("east");
-            left_turn_light.setHeading("east");
+            return "east";
         }
         case 'e':
         {
-            left_turn_lane.setHeading("south");
-            left_turn_light.setHeading("south");
+            return "south";
         }
         case 's':
         {
-            left_turn_lane.setHeading("west");
-            left_turn_light.setHeading("west");
+            return "west";
         }
         case 'w':
         {
-            left_turn_lane.setHeading("north");
-            left_turn_light.setHeading("north");
+            return "north";
         }
     }
 
-    //set center lane heading
+    //set center/straight heading
     if (lane.compare("center") == 0)
         switch(origin_direction[0])
     {
         case 'n':
         {
-            left_turn_lane.setHeading("south");
-            left_turn_light.setHeading("south");
+            return "south";
         }
         case 'e':
         {
-            left_turn_lane.setHeading("west");
-            left_turn_light.setHeading("west");
+            return "west";
         }
         case 's':
         {
-            left_turn_lane.setHeading("north");
-            left_turn_light.setHeading("north");
+            return "north";
         }
         case 'w':
         {
-            left_turn_lane.setHeading("east");
-            left_turn_light.setHeading("east");
+            return "east";
         }
     }
 
-    //set right lane heading
-    if (lane.compare("left") == 0)
+    //set right heading
+    if (lane.compare("right") == 0)
         switch(origin_direction[0])
     {
         case 'n':
         {
-            left_turn_lane.setHeading("west");
-            left_turn_light.setHeading("west");
+            return "west";
         }
         case 'e':
         {
-            left_turn_lane.setHeading("north");
-            left_turn_light.setHeading("north");
+            return "north";
         }
         case 's':
         {
-            left_turn_lane.setHeading("east");
-            left_turn_light.setHeading("east");
+            return "east";
         }
         case 'w':
         {
-            left_turn_lane.setHeading("south");
-            left_turn_light.setHeading("south");
+            return "south";
         }
     }
 
+    // if we reach here, the heading is unknown
+    return "unknown";
 }
 

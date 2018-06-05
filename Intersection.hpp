@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Intersection.hpp
- ** Last Updated by Kaitlin Lynch on 6/4/18
+ ** Last Updated by Kaitlin Lynch on 6/5/18
  ** Description: header file for the Intersection class. One instance
  represents one intersection.
  **********************************************************************/
@@ -10,21 +10,28 @@
 #define Intersection_hpp
 
 #include <stdio.h>
+#include <utility>
 #include "Light_Direction_Package.hpp"
 
+using std::pair;
+using std::cout;
+using std::endl;
 
 class Intersection
 {
 private:
-    static int num_intersections;       // total number of intersections
+    static int num_intersections()       // total number of intersections
+    {
+        static int num_intersections = 0;
+        return num_intersections ++;
+    }
     int id;                             // unique id based on total number of intersections
-    class Light_Direction_Package north_light_package;     // north-originating traffic
-    class Light_Direction_Package south_light_package;     // south-originating traffic
-    class Light_Direction_Package east_light_package;      // east-originating traffic
-    class Light_Direction_Package west_light_package;      // west-originating traffic
+    vector<class Light_Direction_Package*> origin_directions; // pointers to light direction packages
     
 public:
     Intersection();
+    Intersection (vector<pair<string,vector<string>>>);
+    void print();
 };
 
 #endif /* Intersection_hpp */
