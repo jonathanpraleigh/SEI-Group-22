@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Traffic_Queue.hpp
- ** Last Updated by Kaitlin Lynch on 6/4/18
+ ** Last Updated by Kaitlin Lynch on 6/5/18
  ** Description: header file for the Traffic_Queue class. One instance
  should exist for each direction of travel legally possible from a
  given direction of origin in an intersection.
@@ -25,6 +25,9 @@ private:
 
 public:
     Traffic_Queue();
+    // Constructor for heading
+    Traffic_Queue(string h);
+    // Constructor for heading and mode
     Traffic_Queue(string h, string m);
     int getSize();
     void setHeading(string);
@@ -35,7 +38,7 @@ public:
     void removeUserFromFront();
     void removeUntilUser(class User&);
     class User* getFirstUserInLine();
-    double calcAverageWaitTime ();
+    double calcAverageWaitTime (double);
 };
 
 #endif /* Traffic_Queue_hpp */

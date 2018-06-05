@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Light_Direction_Package.hpp
- ** Last Updated by Kaitlin Lynch on 6/4/18
+ ** Last Updated by Kaitlin Lynch on 6/5/18
  ** Description: header file for the Light_Direction_Package class. One instance
  should exist for each direction of origin legally possible at an intersection.
  **********************************************************************/
@@ -10,27 +10,37 @@
 #define Light_Direction_Package_hpp
 
 #include <stdio.h>
+#include <vector>
+#include "Traffic_Queue.hpp"
 #include "Traffic_Light.hpp"
 #include "Speed_Listener.hpp"
 #include "Emergency_Listener.hpp"
 
-class Light_Direction_Package
+using std::vector;
+
+class Light_Direction_Package : public Speed_Listener, Emergency_Listener
 {
 private:
     string origin_direction;                                 // direction from which traffic arrives
-    class Traffic_Queue left_turn_lane;                      // left turn lane queue
-    class Traffic_Light left_turn_light;                     // light for left turn
-    class Traffic_Queue center_lane;                         // center lane queue
-    class Traffic_Light center_light;                        // light for going straight
-    class Traffic_Queue right_turn_lane;                     // right turn lane queue
-    class Traffic_Light right_turn_light;                    // light for right turn
+    vector<class Traffic_Queue*> lanes;                      // pointers to lanes
+    vector<class Traffic_Light*> lights;                     // pointers to lights
     class Speed_Listener speed_listener;                     // speed listener for this direction
-    class Emergency_Listener emergency_listener("emergency");// emergency listener for this direction
+    class Emergency_Listener emergency_listener;             // emergency listener for this direction
 
 public:
-    Light_Direction_Package();
-    Light_Direction_Package(string o, int l, int c, int r);
-    void determineHeadingByOriginDirection (string);
+    Light_Direction_Package(): speed_listener(), emergency_listener(){origin_direction = "unknown";};
+    Light_Direction_Package (string o, vector<string> l): speed_listener(), emergency_listener()
+    {
+        origin_direction = o;
+        for (string s: l)
+            createLaneAndLight(s);
+    };
+    void setOriginDirection (string);
+    string getOriginDirection ();
+    vector<Traffic_Queue*>* getLanes();
+    vector<Traffic_Light*>* getLights();
+    void createLaneAndLight(string);
+    string _determineHeadingByOriginDirection (string);
 };
 
 #endif /* Light_Direction_Package_hpp */
