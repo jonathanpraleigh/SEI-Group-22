@@ -16,8 +16,7 @@
  **********************************************************************/
 Traffic_Light::Traffic_Light()
 {
-    heading.first = "unknown";
-    heading.second = "unknown";
+    heading = "unknown";
     color = "red";
     time_turned = clock()/1000;
     duration = 0.0;
@@ -30,7 +29,7 @@ Traffic_Light::Traffic_Light()
  ** Description: sets heading, color, duration, and yellow_duration. Sets
  time_turned to current time.
  **********************************************************************/
-Traffic_Light::Traffic_Light(pair<string, string> h, string c, double d, double yd)
+Traffic_Light::Traffic_Light(string h, string c, double d, double yd)
 {
     heading = h;
     color = c;
@@ -40,14 +39,13 @@ Traffic_Light::Traffic_Light(pair<string, string> h, string c, double d, double 
 }
 
 
-void Traffic_Light::setHeading(string h1, string h2)
+void Traffic_Light::setHeading(string h)
 {
-    heading.first = h1;
-    heading.second = h2;
+    heading = h;
 }
 
 
-pair<string, string> Traffic_Light::getHeading()
+string Traffic_Light::getHeading()
 {
     return heading;
 }

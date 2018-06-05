@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Emergency_Listener.hpp
- ** Last Updated by Kaitlin Lynch on 5/30/18
+ ** Last Updated by Kaitlin Lynch on 6/4/18
  ** Description: header file for the Emergency_Listener class. This class
  watches for emergency-type users.
  **********************************************************************/
@@ -18,7 +18,7 @@ using std::string;
 class Emergency_Listener
 {
 private:
-    string override_type;
+    string override_type;   // type of override, usually "emergency"
 
 public:
     Emergency_Listener();

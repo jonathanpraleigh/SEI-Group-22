@@ -1,20 +1,19 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: User.cpp
- ** Last Updated by Kaitlin Lynch on 5/30/18
+ ** Last Updated by Kaitlin Lynch on 6/4/18
  ** Description: method file for the User class. Users will begin as
  vehicles but may also be pedestrians, bikes, public transport, etc.
  in future iterations.
  **********************************************************************/
 
 #include "User.hpp"
-#include <ctime>
 
 /**********************************************************************
  ** Default Constructor
  ** Description: sets heading, mode, and type to unknown. Sets
  time_arrived to current time and sets time_waited to 0.
-**********************************************************************/
+ **********************************************************************/
 User::User ()
 {
 
@@ -23,32 +22,10 @@ User::User ()
     else num_users++;
 
     id = num_users;
-    /*heading.first = "unknown";
-    heading.second = "unknown";*/
     heading = "unknown";
     mode = "unknown";
     type = "unknown";
     time_arrived = clock()/1000;    // clock ticks converted to seconds
-}
-
-
-/**********************************************************************
- ** Testing Constructor
- ** Description: Sets heading, mode, and type. Sets
- time_arrived to current clock time in seconds.
- **********************************************************************/
-//User::User (pair<string, string> h, string m, string t, int s)
-User::User (string h, string m, string t, int s)
-{
-    if (num_users < 1)
-        num_users = 0;
-    else num_users++;
-    id = num_users;
-    heading = h;
-    mode = m;
-    type = t;
-//    time_arrived = clock()/1000;    // clock ticks converted to seconds
-    speed = s;
 }
 
 
@@ -58,7 +35,6 @@ User::User (string h, string m, string t, int s)
  time_arrived to time first detected by sensor in seconds. Accounts for
  any delay when sending information from sensors to system.
  **********************************************************************/
-//User::User (pair<string, string> h, string m, string t, double ta, int s)
 User::User (string h, string m, string t, double ta, int s)
 {
     if (num_users < 1)
@@ -85,22 +61,11 @@ int User::getId()
 }
 
 
-/*void User::setHeading (string h1, string h2)
-{
-    heading.first = h1;
-    heading.second = h2;
-}*/
-
-
 void User::setHeading (string h)
 {
     heading = h;
 }
 
-/*pair<string, string> User::getHeading()
-{
-    return heading;
-}*/
 
 string User::getHeading()
 {
