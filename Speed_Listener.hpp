@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Speed_Listener.hpp
- ** Last Updated by Kaitlin Lynch on 5/30/18
+ ** Last Updated by Kaitlin Lynch on 6/4/18
  ** Description: header file for the Speed_Listener class. This class
  watches for speeding users who are unlikely to be able to stop in time.
  **********************************************************************/
@@ -15,7 +15,7 @@
 class Speed_Listener
 {
 private:
-    int max_speed;
+    int max_speed;      // max speed at which user can stop once detected
 
 public:
     Speed_Listener ();
