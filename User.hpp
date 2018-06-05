@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: User.hpp
- ** Last Updated by Kaitlin Lynch on 6/5/18
+ ** Last Updated by Kaitlin Lynch on 5/30/18
  ** Description: header file for the User class. Users will begin as
  vehicles but may also be pedestrians, bikes, public transport, etc.
  in future iterations.
@@ -18,14 +18,10 @@ using std::string;
 class User
 {
 private:
-    static int num_users()               // total number users for unique id;
-    {
-        static int num_users = 0;
-        return num_users ++;
-    }
+    static int num_users;               // total number users for unique id;
     int id;                            // unique user id;
     string heading;                    // direction user is heading, determined by lane
-    string origin		                   // direction user is coming from determined by road
+    string origin		       // direction user is coming from determined by road
     string mode;                       // mode of transportation (e.g., vehicle, pedestrian, bike)
     string type;                       // type of override user (e.g., emergency, public_transport)
     double time_arrived;               // time (seconds) when user detected entering system
@@ -33,8 +29,8 @@ private:
 
 public:
     User ();
-    User (string h, string m, string t, double ta, int s);
-    void setId(int);
+    User (string h, string o, string m, string t, double ta, int s);
+    void setId (int);
     int getId();
     void setHeading (string h);
     string getHeading();
@@ -48,7 +44,6 @@ public:
     double getTimeArrived();
     void setSpeed(int s);
     int getSpeed();
-    double calcTimeWaited(double t);
+    double calcTimeWaited();
 };
-
 #endif /* User_hpp */
