@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Traffic_Light.cpp
- ** Last Updated by Kaitlin Lynch on 6/1/18
+ ** Last Updated by Kaitlin Lynch on 6/5/18
  ** Description: method file for the Traffic_Light class. One instance
  should exist for each direction of travel legally possible from a
  given direction of origin in an intersection.
@@ -12,30 +12,25 @@
 /**********************************************************************
  ** Default Constructor
  ** Description: sets heading to unknown, color to red, time_turned to
- current time (seconds), duration to 0, and yellow_duration to 4 seconds.
+ current time (seconds).
  **********************************************************************/
 Traffic_Light::Traffic_Light()
 {
     heading = "unknown";
     color = "red";
     time_turned = clock()/1000;
-    duration = 0.0;
-    yellow_duration = 4;    // 4 seconds (35 mph)
 }
 
 
 /**********************************************************************
  ** Constructor
- ** Description: sets heading, color, duration, and yellow_duration. Sets
- time_turned to current time.
+ ** Description: sets heading. Color defaults to red.
  **********************************************************************/
-Traffic_Light::Traffic_Light(string h, string c, double d, double yd)
+Traffic_Light::Traffic_Light(string h)
 {
     heading = h;
-    color = c;
-    time_turned = clock()/1000;
-    duration = d;
-    yellow_duration = yd;
+    color = "red";
+    time_turned = 0;
 }
 
 
@@ -63,9 +58,9 @@ string Traffic_Light::getColor()
 }
 
 
-void Traffic_Light::setTimeTurned()
+void Traffic_Light::setTimeTurned(double t)
 {
-    time_turned = clock()/1000;
+    time_turned = t;
 }
 
 
@@ -75,53 +70,41 @@ double Traffic_Light::getTimeTurned()
 }
 
 
-void Traffic_Light::setDuration(double d)
+/**********************************************************************
+ ** updateLight
+ ** Description: updates the color and time turned of a light
+ **********************************************************************/
+void Traffic_Light::updateLight(string c, double t)
 {
-    duration = d;
+    color = c;
+    time_turned = t;
 }
 
 
-double Traffic_Light::getDuration()
-{
-    return duration;
-}
-
-
-void Traffic_Light::setYellowDuration(double yd)
-{
-    yellow_duration = yd;
-}
-
-
-double Traffic_Light::getYellowDuration()
-{
-    return yellow_duration;
-}
-
-
-void Traffic_Light::changeLight(double d)
+/**********************************************************************
+ ** changeLight
+ ** Description: changes the color of a light to the next correct color
+ **********************************************************************/
+void Traffic_Light::changeLight(double t)
 {
     // light is red
     if (color.compare("red") == 0)
     {
         color = "green";
-        time_turned = clock()/1000;
-        duration = d;
+        time_turned = t;
     }
 
     //light is yellow
     else if (color.compare("yellow") == 0)
     {
         color = "red";
-        time_turned = clock()/1000;
-        duration = d;
+        time_turned = t;
     }
+
     // light is green
     else
     {
         color = "yellow";
-        time_turned = clock()/1000;
-        duration = yellow_duration;
-        changeLight(d);
+        time_turned = t;
     }
 }

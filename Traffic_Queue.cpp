@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Traffic_Queue.cpp
- ** Last Updated by Kaitlin Lynch on 6/4/18
+ ** Last Updated by Kaitlin Lynch on 6/5/18
  ** Description: method file for the Traffic_Queue class. One instance
  should exist for each direction of travel legally possible from a
  given direction of origin in an intersection.
@@ -17,21 +17,28 @@
 Traffic_Queue::Traffic_Queue()
 {
     heading = "unknown";
-    mode = "unknown";
-    total_wait_time = 0;
+    mode = "vehicle";
 }
 
 
 /**********************************************************************
  ** Constructor
- ** Description: sets heading and mode. Sets
- total_wait_time to 0.
+ ** Description: sets heading.
+ **********************************************************************/
+Traffic_Queue::Traffic_Queue(string h)
+{
+    heading = h;
+}
+
+
+/**********************************************************************
+ ** Constructor
+ ** Description: sets heading and mode. 
  **********************************************************************/
 Traffic_Queue::Traffic_Queue(string h, string m){
 
     heading = h;
     mode = m;
-    total_wait_time = 0;
 }
 
 
@@ -106,10 +113,10 @@ void Traffic_Queue::removeUntilUser(class User &u)
  ** Description: calculates the average wait time for users currently
  in queue
  **********************************************************************/
-double Traffic_Queue::calcAverageWaitTime()
+double Traffic_Queue::calcAverageWaitTime(double current_time)
 {
     double total_wait_time = 0;
     for (class User u: users_in_queue)
-        total_wait_time += u.calcTimeWaited();
+        total_wait_time += u.calcTimeWaited(current_time);
     return total_wait_time / users_in_queue.size();
 }
