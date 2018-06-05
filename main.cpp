@@ -11,13 +11,15 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstdlib>
 using namespace std;
 
-int main(int argc, const char * argv[]) 
+
+int main(int argc, const char * argv[])
 {
 	//At this point main is just used to pull in User data and place them in a single traffic queue
 	std::ifstream infile("testfile.txt");
-	vector<User> allUsers;
+	std :: vector<User> allUsers;
 	User tempUser;
 
 

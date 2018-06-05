@@ -21,6 +21,7 @@ private:
     static int num_users;               // total number users for unique id;
     int id;                            // unique user id;
     string heading;                    // direction user is heading, determined by lane
+    string origin		       // direction user is coming from determined by road
     string mode;                       // mode of transportation (e.g., vehicle, pedestrian, bike)
     string type;                       // type of override user (e.g., emergency, public_transport)
     double time_arrived;               // time (seconds) when user detected entering system
@@ -28,11 +29,13 @@ private:
 
 public:
     User ();
-    User (string h, string m, string t, double ta, int s);
+    User (string h, string o, string m, string t, double ta, int s);
     void setId (int);
     int getId();
     void setHeading (string h);
     string getHeading();
+    void setOrigin(string o);
+    string getOrigin();
     void setMode (string m);
     string getMode();
     void setType (string t);
