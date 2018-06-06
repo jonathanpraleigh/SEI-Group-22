@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <vector>
 #include "Traffic_Queue.hpp"
-#include "Traffic_Light.hpp"
 #include "Speed_Listener.hpp"
 #include "Emergency_Listener.hpp"
 
@@ -23,7 +22,6 @@ class Light_Direction_Package : public Speed_Listener, Emergency_Listener
 private:
     string origin_direction;                                 // direction from which traffic arrives
     vector<class Traffic_Queue*> lanes;                      // pointers to lanes
-    vector<class Traffic_Light*> lights;                     // pointers to lights
     class Speed_Listener speed_listener;                     // speed listener for this direction
     class Emergency_Listener emergency_listener;             // emergency listener for this direction
 
@@ -33,13 +31,12 @@ public:
     {
         origin_direction = o;
         for (string s: l)
-            createLaneAndLight(s);
+            createLane(s);
     };
     void setOriginDirection (string);
     string getOriginDirection ();
     vector<Traffic_Queue*>* getLanes();
-    vector<Traffic_Light*>* getLights();
-    void createLaneAndLight(string);
+    void createLane(string);
     string _determineHeadingByOriginDirection (string);
 };
 

@@ -28,7 +28,7 @@ bool isConflict (Traffic_Queue* tq1, Traffic_Queue* tq2)
     // East -> West & West -> East
     // South -> East & East -> South
     // South -> West & West -> South
-    if (tq1->getOrigin().compare(tq2->getHeading()) == 0 && tq2->getOrigin().compare(tq1->getHeading()== 0)
+    if (tq1->getOrigin().compare(tq2->getHeading()) == 0 && tq2->getOrigin().compare(tq1->getHeading())== 0)
         return true;
     else return false;
 }
@@ -89,26 +89,25 @@ int main(int argc, const char * argv[]) {
     while (infile >> descriptor >> variable)
     {
         // add Users whose time matches current time << JAMES & JON
-            // if time  = CURRENT_TIME
-            // Create new user
+            // if time car arrives = CURRENT_TIME
+            // Create new user for car
             // add user to correct queue
         // if only parallel queuqes have users, light should be green << no one should stop
         // vecotr of queues whose size > 0
         //if vector.size == 2 && same direction or no conflict, then green
 
         // Create a list of queues that have at least 1 user
-        vector <pair<Traffic_Queue*, Traffic_Light*>> queues_with_users;
+        vector <Traffic_Queue*> queues_with_users;
         int i = 0;  // iterator
         for (Light_Direction_Package* ldp: T_style.origin_directions)
         {
             for (Traffic_Queue* tq: *ldp->getLanes())
             {
-                pair<Traffic_Queue*, Traffic_Light*> temp;
                 // if there are users in the queue
                 if (tq->getSize() > 0)
                 {
-                    temp.first = tq;
-                    temp.second = *ldp->getLanes()[i];
+                    // Add Traffic Queue to list of queues with users
+                    queues_with_users.push_back(tq);
                 }
                 i++;
             }
@@ -123,7 +122,7 @@ int main(int argc, const char * argv[]) {
            {
                for (Light_Direction_Package* ldp: T_style.origin_directions)
                {
-                   if (ldp->getLights
+
                }
            }
                
