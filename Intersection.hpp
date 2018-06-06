@@ -19,7 +19,7 @@ using std::endl;
 
 class Intersection
 {
-private:
+public:
     static int num_intersections()       // total number of intersections
     {
         static int num_intersections = 0;
@@ -27,8 +27,6 @@ private:
     }
     int id;                             // unique id based on total number of intersections
     vector<class Light_Direction_Package*> origin_directions; // pointers to light direction packages
-    
-public:
     Intersection();
     Intersection (vector<pair<string,vector<string>>>);
     void print();

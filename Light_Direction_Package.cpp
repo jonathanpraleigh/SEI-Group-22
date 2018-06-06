@@ -50,8 +50,8 @@ void Light_Direction_Package::createLaneAndLight(string lane)
     Traffic_Queue* temp_lane;
     Traffic_Light* temp_light;
     string heading = _determineHeadingByOriginDirection(lane);
-    temp_lane = new Traffic_Queue(heading);
-    temp_light = new Traffic_Light(heading);
+    temp_lane = new Traffic_Queue(heading, origin_direction);
+    temp_light = new Traffic_Light(heading, origin_direction);
     lanes.push_back(temp_lane);
     lights.push_back(temp_light);
 }
