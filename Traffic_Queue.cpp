@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: Traffic_Queue.cpp
- ** Last Updated by Kaitlin Lynch on 6/5/18
+ ** Last Updated by Maria Taborda on 6/6/18
  ** Description: method file for the Traffic_Queue class. One instance
  should exist for each direction of travel legally possible from a
  given direction of origin in an intersection.
@@ -19,29 +19,36 @@ Traffic_Queue::Traffic_Queue()
     heading = "unknown";
     origin = "unknown";
     mode = "vehicle";
+    color ="red";
+    time_turned = 0;
 }
 
 
 /**********************************************************************
  ** Constructor
- ** Description: sets heading and origin.
+ ** Description: sets heading and origin. Mode defaults to vehicle and color defaults to red.
  **********************************************************************/
 Traffic_Queue::Traffic_Queue(string h, string o)
 {
     heading = h;
     origin = o;
+    mode = "vehicle";
+    color ="red";
+    time_turned = 0;
 }
 
 
 /**********************************************************************
  ** Constructor
- ** Description: sets heading, origin, and mode.
+ ** Description: sets heading, origin, and mode. Color still defaults to red.
  **********************************************************************/
-Traffic_Queue::Traffic_Queue(string h, string o, string m){
-
+Traffic_Queue::Traffic_Queue(string h, string o, string m)
+{
     heading = h;
     origin = o;
     mode = m;
+    color ="red";
+    time_turned = 0;
 }
 
 
@@ -85,6 +92,18 @@ void Traffic_Queue::setMode(string m)
 string Traffic_Queue::getMode()
 {
     return mode;
+}
+
+
+void Traffic_Queue::setColor (string c)
+{
+    color = c;
+}
+
+
+string Traffic_Queue::getColor()
+{
+    return color;
 }
 
 
@@ -145,3 +164,57 @@ double Traffic_Queue::calcAverageWaitTime(double current_time)
         total_wait_time += u.calcTimeWaited(current_time);
     return total_wait_time / users_in_queue.size();
 }
+
+
+void Traffic_Queue::setTimeTurned(double t)
+{
+    time_turned = t;
+}
+
+
+double Traffic_Queue::getTimeTurned()
+{
+    return time_turned;
+}
+
+
+/**********************************************************************
+ ** updateLight
+ ** Description: updates the color and time turned of a light
+ **********************************************************************/
+void Traffic_Queue::updateLight(string c, double t)
+{
+    color = c;
+    time_turned = t;
+}
+
+
+/**********************************************************************
+ ** changeLight
+ ** Description: changes the color of a light to the next correct color
+ **********************************************************************/
+void Traffic_Queue::changeLight(double t)
+{
+    // light is red
+    if (color.compare("red") == 0)
+    {
+        color = "green";
+        time_turned = t;
+    }
+
+    //light is yellow
+    else if (color.compare("yellow") == 0)
+    {
+        color = "red";
+        time_turned = t;
+    }
+
+    // light is green
+    else
+    {
+        color = "yellow";
+        time_turned = t;
+    }
+}
+
+

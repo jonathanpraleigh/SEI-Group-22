@@ -31,29 +31,16 @@ vector<Traffic_Queue*>* Light_Direction_Package::getLanes()
 
 
 /**********************************************************************
- ** getLights
- ** Description: returns a pointer to the list of lights
- **********************************************************************/
-vector<Traffic_Light*>* Light_Direction_Package::getLights()
-{
-    return &lights;
-}
-
-
-/**********************************************************************
- ** createLaneAndLight
+ ** createLane
  ** Description: creates the lane and light for a given direction (i.e.,
  left, center, right).
  **********************************************************************/
-void Light_Direction_Package::createLaneAndLight(string lane)
+void Light_Direction_Package::createLane(string lane)
 {
     Traffic_Queue* temp_lane;
-    Traffic_Light* temp_light;
     string heading = _determineHeadingByOriginDirection(lane);
     temp_lane = new Traffic_Queue(heading, origin_direction);
-    temp_light = new Traffic_Light(heading, origin_direction);
     lanes.push_back(temp_lane);
-    lights.push_back(temp_light);
 }
 
 
