@@ -20,14 +20,17 @@ class Traffic_Light
 {
 private:
     string heading;             // direction of travel permitted
+    string origin;              // direction of users controlled by light
     string color;               // current color of light
     double time_turned;         // time light turned that color
     
 public:
     Traffic_Light();
-    Traffic_Light(string);
+    Traffic_Light(string h, string o);
     void setHeading(string);
     string getHeading();
+    void setOrigin(string);
+    string getOrigin();
     void setColor (string);
     string getColor();
     void setTimeTurned(double);

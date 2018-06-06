@@ -11,33 +11,36 @@
 
 /**********************************************************************
  ** Default Constructor
- ** Description: sets heading and mode to unknown. Sets
+ ** Description: sets heading, origin, and mode to unknown. Sets
  total_wait_time to 0.
  **********************************************************************/
 Traffic_Queue::Traffic_Queue()
 {
     heading = "unknown";
+    origin = "unknown";
     mode = "vehicle";
 }
 
 
 /**********************************************************************
  ** Constructor
- ** Description: sets heading.
+ ** Description: sets heading and origin.
  **********************************************************************/
-Traffic_Queue::Traffic_Queue(string h)
+Traffic_Queue::Traffic_Queue(string h, string o)
 {
     heading = h;
+    origin = o;
 }
 
 
 /**********************************************************************
  ** Constructor
- ** Description: sets heading and mode. 
+ ** Description: sets heading, origin, and mode.
  **********************************************************************/
-Traffic_Queue::Traffic_Queue(string h, string m){
+Traffic_Queue::Traffic_Queue(string h, string o, string m){
 
     heading = h;
+    origin = o;
     mode = m;
 }
 
@@ -58,6 +61,18 @@ void Traffic_Queue::setHeading(string h)
 string Traffic_Queue::getHeading()
 {
     return heading;
+}
+
+void Traffic_Queue::setOrigin(string o)
+{
+    origin = o;
+
+}
+
+
+string Traffic_Queue::getOrigin()
+{
+    return origin;
 }
 
 
@@ -105,6 +120,16 @@ void Traffic_Queue::removeUntilUser(class User &u)
     {
         removeUserFromFront();
     }
+}
+
+
+/**********************************************************************
+ ** getFirstUserInLine()
+ ** Description: returns the first user in the queue as a pointer
+ **********************************************************************/
+class User* Traffic_Queue::getFirstUserInLine()
+{
+    return &users_in_queue.front();
 }
 
 

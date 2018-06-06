@@ -11,12 +11,13 @@
 
 /**********************************************************************
  ** Default Constructor
- ** Description: sets heading to unknown, color to red, time_turned to
+ ** Description: sets heading and origin to unknown, color to red, time_turned to
  current time (seconds).
  **********************************************************************/
 Traffic_Light::Traffic_Light()
 {
     heading = "unknown";
+    origin = "unknown";
     color = "red";
     time_turned = clock()/1000;
 }
@@ -26,9 +27,10 @@ Traffic_Light::Traffic_Light()
  ** Constructor
  ** Description: sets heading. Color defaults to red.
  **********************************************************************/
-Traffic_Light::Traffic_Light(string h)
+Traffic_Light::Traffic_Light(string h, string o)
 {
     heading = h;
+    origin = o;
     color = "red";
     time_turned = 0;
 }
@@ -43,6 +45,18 @@ void Traffic_Light::setHeading(string h)
 string Traffic_Light::getHeading()
 {
     return heading;
+}
+
+
+void Traffic_Light::setOrigin(string o)
+{
+    origin = o;
+}
+
+
+string Traffic_Light::getOrigin()
+{
+    return origin;
 }
 
 

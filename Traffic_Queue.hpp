@@ -22,16 +22,19 @@ private:
     deque<class User> users_in_queue;       // queue of users in lane
     string heading;                         // direction of travel permitted by lane
     string mode;                            // mode of transportation (e.g. vehicle, pedestrian)
+    string origin;                          // direction users arrive from
 
 public:
     Traffic_Queue();
-    // Constructor for heading
-    Traffic_Queue(string h);
-    // Constructor for heading and mode
-    Traffic_Queue(string h, string m);
+    // Constructor for heading and origin
+    Traffic_Queue(string h, string o);
+    // Constructor for heading, origin and mode
+    Traffic_Queue(string h, string o, string m);
     int getSize();
     void setHeading(string);
     string getHeading();
+    void setOrigin(string);
+    string getOrigin();
     void setMode(string);
     string getMode();
     void addUser(class User&);
