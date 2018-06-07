@@ -1,0 +1,13 @@
+from Maria's email to Joe: 
+
+Assumptions: The top part of the T intersection is our main direction/road
+                       In order to make it more realistic we decided to code a separate light for  all the left turns. 
+
+1 - Input: single car/single direction main road 
+     Outpu: car successfully passes the intersection without wait 
+
+2-  Input: single car/single direction secondary (crossing) road 
+     Output car successfully passes the intersection without wait
+
+3-  Input: multiple cars/multiple directions
+     Output: How many cars passed through the intersection, and how much time and how many light cycles it took  
