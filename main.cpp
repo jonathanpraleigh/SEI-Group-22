@@ -182,6 +182,14 @@ int main(int argc, const char * argv[])
          JAMES & JON
          *****************************/
             // add Users whose time matches current time << JAMES & JON
+     
+     // Jon -- pseudocode : 
+     //open file of test data. 
+     //parse for each and push results in a data structure. 
+     //(Already presorted by time, so no need to sort)
+     //point to the first element. Advance until results[i].time != current time, creating users per each element.
+     //push user to queue. end -- Jon//
+     
                 // if time car arrives = CURRENT_TIME
                 // Create new user for car
                 // add user to correct queue
@@ -295,6 +303,12 @@ int main(int argc, const char * argv[])
      JAMES & JON
      *****************************/
     // Output results to file
+   // Jon -- thought:
+   // heading is current time and what happens at each time interval?
+   // Time: 
+   // Cars passing:
+   // Cars Waiting:
+   // Time Waiting?
 
     /**********************
      OLD CODE: Get Users in Single Queue
