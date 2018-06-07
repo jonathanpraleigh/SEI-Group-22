@@ -120,11 +120,12 @@ void Traffic_Queue::addUser(class User &u)
 
 /**********************************************************************
  ** removeUserFromFront
- ** Description: removes a User from the front of the queue
+ ** Description: removes a User from the front of the queue (if any)
  **********************************************************************/
 void Traffic_Queue::removeUserFromFront()
 {
-    users_in_queue.pop_front();
+    if (users_in_queue.size() > 0)
+        users_in_queue.pop_front();
 }
 
 
@@ -192,6 +193,7 @@ void Traffic_Queue::updateLight(string c, double t)
 /**********************************************************************
  ** changeLight
  ** Description: changes the color of a light to the next correct color
+ ** Update: this currently only changes the lights between green and red
  **********************************************************************/
 void Traffic_Queue::changeLight(double t)
 {
@@ -212,7 +214,8 @@ void Traffic_Queue::changeLight(double t)
     // light is green
     else
     {
-        color = "yellow";
+        // color = "yellow";
+        color = "red";
         time_turned = t;
     }
 }

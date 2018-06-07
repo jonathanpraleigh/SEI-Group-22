@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: User.cpp
- ** Last Updated by Kaitlin Lynch on 6/4/18
+ ** Last Updated by Kaitlin Lynch on 6/5/18
  ** Description: method file for the User class. Users will begin as
  vehicles but may also be pedestrians, bikes, public transport, etc.
  in future iterations.
@@ -16,34 +16,24 @@
  **********************************************************************/
 User::User ()
 {
-
-    if (num_users < 1)
-        num_users = 0;
-    else num_users++;
-
-    id = num_users;
+    id = num_users();
     heading = "unknown";
-    origin = "unknown";
     mode = "unknown";
     type = "unknown";
-    time_arrived = clock()/1000;    // clock ticks converted to seconds
+    time_arrived = 0;
 }
 
 
 /**********************************************************************
- ** Sensor Constructor
+ ** Constructor
  ** Description: Sets heading, mode, and type. Sets
  time_arrived to time first detected by sensor in seconds. Accounts for
  any delay when sending information from sensors to system.
  **********************************************************************/
-User::User (string h, string o, string m, string t, double ta, int s)
+User::User (string h, string m, string t, double ta, int s)
 {
-    if (num_users < 1)
-        num_users = 0;
-    else num_users++;
-    id = num_users;
+    id = num_users();
     heading = h;
-    origin = o;
     mode = m;
     type = t;
     time_arrived = ta;
@@ -51,7 +41,7 @@ User::User (string h, string o, string m, string t, double ta, int s)
 }
 
 
-void User::setId (int n)
+void User::setId(int n)
 {
     id = n;
 }
@@ -73,18 +63,6 @@ string User::getHeading()
 {
     return heading;
 }
-
-void User::setOrigin (string o)
-{
-    heading = o;
-}
-
-
-string User::getOrigin()
-{
-    return origin;
-}
-
 
 void User::setMode (string m)
 {
@@ -134,9 +112,9 @@ int User::getSpeed()
 }
 
 
-double User::calcTimeWaited()
+double User::calcTimeWaited(double t)
 {
-    double current_time = clock() / 1000;
+    double current_time = t;
     double time_waited = current_time - time_arrived;
 
     return time_waited;
