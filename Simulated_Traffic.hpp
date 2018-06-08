@@ -13,15 +13,15 @@
 /*Variables*/
 bool done, em_or_not;
 char emergency_vehicles_or_not;
-enum Directions { north, east, south, west };
+enum Directions { north, south, east, west };
 int num_of_cars, num_of_directions, selection;
-std::string direction_name;
+std::string direction_from_name, direction_to_name;
 struct option{
 	std::string name;
 	void(*func_ptr)();
 };
 struct car_data{
-	Directions direction;
+	Directions direction_from, direction_to;
 	int arrival_time, initial_speed; //assuming a span of definied minutes, arrival time is CLOCK_START + arrival time.
 	bool is_emergency_vehicle;
 };
