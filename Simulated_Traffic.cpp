@@ -1,3 +1,9 @@
+/**********************************************************************
+** traffic_simulation_menu
+** Description: Handles the menu for the traffic simulation. Pulls
+**				from the vector of menu options. Allows for menu
+**				expansion for hardcoded test scenarios.
+**********************************************************************/
 #include "Simulated_Traffic.hpp"
 #include <iostream>
 #include <string>
@@ -8,14 +14,7 @@
 #include <limits>
 #include <algorithm>
 
-/**********************************************************************
-** traffic_simulation_menu
-** Description: Handles the menu for the traffic simulation. Pulls
-**				from the vector of menu options. Allows for menu
-**				expansion for hardcoded test scenarios.
-**********************************************************************/
-
-void traffic_simulation_menu()
+int main()
 {
 	/*Function Pointers*/
 	void(*ptr_initialize_simulation)() = &initialize_simulation;
@@ -32,7 +31,7 @@ void traffic_simulation_menu()
 		ptr_exit_simulation // function pointer
 	};
 
-	std::vector<struct option>options_vector;
+	std::vector<struct option>options_vector; //holds the selected options.
 	options_vector.push_back(start_simulation);
 	options_vector.push_back(exit_menu);
 
@@ -48,13 +47,15 @@ void traffic_simulation_menu()
 		}
 
 		std::cout << "Selection: ";
-		while (!(std::cin >> selection) && selection > options_vector.size() && selection < 1)
+		while (!(std::cin >> selection) && selection > options_vector.size() && selection < 1 )
 		{
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 		options_vector[selection - 1].func_ptr();
 	}
+
+	return 0;
 }
 
 /**********************************************************************
@@ -72,7 +73,7 @@ void initialize_simulation()
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
-	std::cout << "# of approach direction: ";
+	std::cout << "# of approach directions: ";
 	while (!(std::cin >> num_of_directions) && num_of_directions > 4 && num_of_directions < 2)
 	{
 		std::cin.clear();
@@ -88,7 +89,7 @@ void initialize_simulation()
 		{
 			em_or_not = true;
 		}
-
+			
 		if (emergency_vehicles_or_not == 'N' || emergency_vehicles_or_not == 'n')
 		{
 			em_or_not = false;
@@ -113,7 +114,12 @@ void randomize_cars(int number_of_cars, int approach_directions, bool emergency_
 	{
 		car_data temp;
 		temp.arrival_time = rand() % (CLOCK_END - CLOCK_START + 1) + CLOCK_START;
-		temp.direction = static_cast<Directions>(rand() % approach_directions + 1);
+		temp.direction_from = static_cast<Directions>(rand() % approach_directions);
+		temp.direction_to = static_cast<Directions>(rand() % approach_directions);
+		while(temp.direction_to == temp.direction_from)
+		{
+			temp.direction_to = static_cast<Directions>(rand() % approach_directions);
+		}
 		temp.initial_speed = rand() % (SPEED_LIMIT_MAX - SPEED_LIMIT_MIN + 1) + SPEED_LIMIT_MIN;
 		if (emergency_vehicles == 0)
 		{
@@ -139,6 +145,7 @@ void randomize_cars(int number_of_cars, int approach_directions, bool emergency_
 
 void build_traffic_queue_file()
 {
+	std::string direction_from_name, direction_to_name;
 	std::ofstream of;
 	of.open("testfile.txt", std::ofstream::out | std::ofstream::trunc);
 
@@ -146,18 +153,41 @@ void build_traffic_queue_file()
 	{
 		of << "Car: " << i << "\n";
 		of << "Time: " << list_of_cars[i].arrival_time << "\n";
-		switch(list_of_cars[i].direction)
+		if (list_of_cars[i].direction_from == north)
 		{
-			case north :
-			direction_name = "north";
-			case east:
-			direction_name = "east";
-			case south: 
-			direction_name = "south";
-			case west:
-			direction_name = "west";
+			direction_from_name = "north";
 		}
-		of << "Direction: " << direction_name << "\n";
+		else if (list_of_cars[i].direction_from == south)
+		{
+			direction_from_name = "south";
+		}
+		else if (list_of_cars[i].direction_from == east)
+		{
+			direction_from_name = "east";
+		}
+		else if (list_of_cars[i].direction_from == west)
+		{
+			direction_from_name = "west";
+		}
+		of << "Direction_From: " << direction_from_name << "\n";
+
+		if (list_of_cars[i].direction_to == north)
+		{
+			direction_to_name = "north";
+		}
+		else if (list_of_cars[i].direction_to == south)
+		{
+			direction_to_name = "south";
+		}
+		else if (list_of_cars[i].direction_to == east)
+		{
+			direction_to_name = "east";
+		}
+		else if (list_of_cars[i].direction_to == west)
+		{
+			direction_to_name = "west";
+		}
+		of << "Direction_To: " << direction_to_name << "\n";
 		of << "Speed: " << list_of_cars[i].initial_speed << "\n";
 		of << "Emergency: " << list_of_cars[i].is_emergency_vehicle << "\n";
 	}
@@ -174,5 +204,6 @@ void exit_simulation()
 {
 	done = true;
 }
+
 
 
