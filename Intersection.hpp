@@ -9,7 +9,6 @@
 #ifndef Intersection_hpp
 #define Intersection_hpp
 
-#include <stdio.h>
 #include <utility>
 #include "Light_Direction_Package.hpp"
 
