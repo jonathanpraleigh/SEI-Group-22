@@ -9,7 +9,6 @@
 #ifndef Speed_Listener_hpp
 #define Speed_Listener_hpp
 
-#include <stdio.h>
 #include "User.hpp"
 
 class Speed_Listener
