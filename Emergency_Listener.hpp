@@ -9,7 +9,6 @@
 #ifndef Emergency_Listener_hpp
 #define Emergency_Listener_hpp
 
-#include <stdio.h>
 #include <iostream>
 #include "User.hpp"
 
