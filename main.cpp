@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <fstream>
 #include "Intersection.hpp"
+#include <string>
 
 using namespace std;
 
@@ -80,7 +81,7 @@ void changeLightsInIntersection (Intersection* T, Traffic_Queue* tq1)
             // now that all conflicting lights are red, make non-conflicting lanes green
             // every lane does not conflict with at least one other lane
             // still, this ensures we are not dereferencing a null pointer
-            if (temp != NULL);
+            if (temp != NULL)
             {
                 if (temp->getColor().compare("green") != 0)
                     temp->changeLight(CURRENT_TIME);
@@ -145,7 +146,7 @@ int main(int argc, const char * argv[])
     // South Direction
     pair<string, vector<string>> south;
     south.first = "south";
-    south.second.push_back("left");
+    south.second.push_back("center");
     south.second.push_back("right");
     temp_intersection.push_back(south);
 
@@ -153,15 +154,15 @@ int main(int argc, const char * argv[])
     pair<string, vector<string>> east;
     east.first = "east";
     east.second.push_back("left");
-    east.second.push_back("center");
+    east.second.push_back("right");
     temp_intersection.push_back(east);
 
-    // West Direction
-    pair<string, vector<string>> west;
-    west.first = "west";
-    west.second.push_back("center");
-    west.second.push_back("right");
-    temp_intersection.push_back(west);
+    // North Direction
+    pair<string, vector<string>> north;
+    north.first = "north";
+    north.second.push_back("center");
+    north.second.push_back("left");
+    temp_intersection.push_back(north);
 
     // Create the intersection
     Intersection T_style(temp_intersection);
