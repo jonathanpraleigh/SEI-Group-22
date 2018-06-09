@@ -1,7 +1,7 @@
 /**********************************************************************
  ** Project: SEI Group 22
  ** File name: User.cpp
- ** Last Updated by Kaitlin Lynch and James Palen on 6/8/18
+ ** Last Updated by Kaitlin Lynch on 6/5/18
  ** Description: method file for the User class. Users will begin as
  vehicles but may also be pedestrians, bikes, public transport, etc.
  in future iterations.
@@ -10,15 +10,15 @@
 #include "User.hpp"
 
 /**********************************************************************
- ** Default Constructor
- ** Description: sets heading, mode, and type to unknown. Sets
- time_arrived to current time and sets time_waited to 0.
- **********************************************************************/
+** Default Constructor
+** Description: sets heading, mode, and type to unknown. Sets
+time_arrived to current time and sets time_waited to 0.
+**********************************************************************/
 User::User ()
 {
     id = num_users();
     heading = "unknown";
-	origin = "unknown";
+    origin = "unknown";
     mode = "unknown";
     type = "unknown";
     time_arrived = 0;
@@ -35,7 +35,7 @@ User::User(string h, string o, string m, string t, double ta, int s)
 {
     id = num_users();
     heading = h;
-	origin = o;
+    origin = o;
     mode = m;
     type = t;
     time_arrived = ta;
@@ -68,11 +68,11 @@ string User::getHeading()
 
 void User::setOrigin(string o)
 {
-	origin = o;
+    origin = o;
 }
 string User::getOrigin()
 {
-	return origin;
+    return origin;
 }
 
 void User::setMode (string m)
@@ -130,3 +130,4 @@ double User::calcTimeWaited(double t)
 
     return time_waited;
 }
+

@@ -41,7 +41,7 @@ public:
     string getMode();
     void setColor (string);
     string getColor();
-    void addUser(class User&);
+    void addUser(class User);
     void removeUserFromFront();
     void removeUntilUser(class User&);
     class User* getFirstUserInLine();
