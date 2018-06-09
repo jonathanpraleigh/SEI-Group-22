@@ -10,7 +10,6 @@
 #ifndef User_hpp
 #define User_hpp
 
-#include <stdio.h>
 #include <iostream>
 
 using std::string;
