@@ -10,7 +10,6 @@
 #ifndef Traffic_Queue_hpp
 #define Traffic_Queue_hpp
 
-#include <stdio.h>
 #include <deque>
 #include "User.hpp"
 
