@@ -111,10 +111,10 @@ string Traffic_Queue::getColor()
  ** addUser
  ** Description: adds a User to the back of the queue
  **********************************************************************/
-void Traffic_Queue::addUser(class User &u)
+void Traffic_Queue::addUser(class User u)
 {
     users_in_queue.push_back(u);
-    
+
 }
 
 
@@ -219,5 +219,3 @@ void Traffic_Queue::changeLight(double t)
         time_turned = t;
     }
 }
-
-
