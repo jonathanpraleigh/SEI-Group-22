@@ -1,13 +1,14 @@
  /**********************************************************************
  ** Project: SEI Group 22
  ** File name: main.cpp
- ** Last upadted by Kaitlin Lynch & Maria Taborda on 6/6/18
+ ** Last upadted by Kaitlin Lynch & James Palen on 6/8/18
  ** Description: this is the main method.
  **********************************************************************/
 
 #include <iostream>
 #include <assert.h>
 #include <fstream>
+#include <string>
 #include "Intersection.hpp"
 
 using namespace std;
@@ -159,7 +160,7 @@ int main(int argc, const char * argv[])
      Set up Strategy
      **********************/
     CURRENT_TIME = 0;
-
+	
     // Set up the file stream
     ifstream infile;
     // Check file was opened successfully
@@ -175,181 +176,174 @@ int main(int argc, const char * argv[])
     }
 
     // while there are users in the file
+	vector<User> eastUsers;
+	vector<User> westUsers;
+	vector<User> southUsers;
     string descriptor, variable;
+	infile.open("testfile.txt");
     while (infile >> descriptor >> variable)
     {
-        /******************************
-         JAMES & JON
-         *****************************/
-            // add Users whose time matches current time << JAMES & JON
-                // if time car arrives = CURRENT_TIME
-                // Create new user for car
-                // add user to correct queue
-                // We kept the old read in code at the bottom if you want to reuse parts of it
-                // Please delete the old code when you are finished
-            // END INPUT
+		User *tempUser;
 
-        // Create a list of queues that have at least 1 user
-        vector <Traffic_Queue*> queues_with_users;
+		if (descriptor == "Car:")
+		{
+			//first line of a new potential user
+			tempUser->setId(stoi(variable));
+		}
+		else if (descriptor == "Time:")
+		{
+			tempUser->setTimeArrived(stod(variable));
+			//if the user is not at the current time don't add them to their respective queue by skipping an iteration
+			if (CURRENT_TIME != stod(variable))
+			{
+				continue;
+			}
+		
+		}
+		else if (descriptor == "Direction_To:")
+		{	
+			//set intended Direction
+			tempUser->setHeading(variable);
+		}
+		else if (descriptor == "Direction_From:")
+		{
+			tempUser->setOrigin(variable);
+		}
+		else if (descriptor == "Speed:")
+		{
+			//set user Speed
+			tempUser->setSpeed(stoi(variable));
+		}
+		else if (descriptor == "Emergency:")
+		{
+			//if the descriptor is Emergency then we know that our user is relevant and has all the appropriate information
+			tempUser->setType(variable);
+			
+			
+		}
+		//We need to add them to the appropriate queue
+		// For each direction of approaching traffic
+		for (Light_Direction_Package* ldp : T_style.origin_directions)
+		{
+			// For each lane approaching from the same direction
+			for (Traffic_Queue* tq : *ldp->getLanes())
+			{
+				// if there are users in the queue
+				if (tq->getHeading().compare(tempUser->getHeading()) == 0 && tq->getOrigin().compare(tempUser->getOrigin()) == 0)
+				{
+					// Add Traffic Queue to list of queues with users
+					tq->addUser(*tempUser);
+				}
+			}
 
-        // For each direction of approaching traffic
-        for (Light_Direction_Package* ldp: T_style.origin_directions)
-        {
-            // For each lane approaching from the same direction
-            for (Traffic_Queue* tq: *ldp->getLanes())
-            {
-                // if there are users in the queue
-                if (tq->getSize() > 0)
-                    // Add Traffic Queue to list of queues with users
-                    queues_with_users.push_back(tq);
-            }
-        }
-
-        // CASE 1: users exist in only one lane
-        if (queues_with_users.size() == 1)
-        {
-            // if light is not green
-            if(queues_with_users[0]->getColor().compare("green") != 0)
-            {
-                // call light change function to turn light green
-                // for this direction and a nonconflicting direction
-                changeLightsInIntersection(&T_style, queues_with_users[0]);
-            }
-        }
-
-        // CASE 2: users exist in only non-conflicting directions (e.g., East and West)
-       else if (queues_with_users.size() == 2)
-       {
-           // if two lanes are not in conflict
-           if (!isConflict (queues_with_users[0], queues_with_users[1]))
-           {
-               // call light change function to ensure both are green
-               changeLightsInIntersection(&T_style, queues_with_users[0], queues_with_users[1]);
-           }
-       }
-
-        // CASE 3: users exist in conflicting directions
-        else if (queues_with_users.size() >= 2)
-        {
-            // First, check if the first user in any queue has been waiting
-            // longer than the max wait time
-            for (Traffic_Queue* tq: queues_with_users)
-            {
-                if (tq->getFirstUserInLine()->calcTimeWaited(CURRENT_TIME) >= MAX_WAIT_TIME)
-                {
-                    // If a wait time reaches the max, that light must turn green next
-                    changeLightsInIntersection(&T_style, tq);
-                    // stop search once one is found - others will be found next time step
-                    break;
-                }
-            }
-
-            // If no user has been waiting too long, decide which queue(s) receive green lights by finding the two queues not in conflict with the most users between them
-            int max = 0;
-            int index_q1 = -1;
-            int index_q2 = -1;
-            for (int i = 0; i < queues_with_users.size() - 1; i++)
-            {
-                for (int j = i; j < queues_with_users.size(); j++ )
-                {
-                    if (queues_with_users[i]->getSize() + queues_with_users[j]->getSize() > max && !isConflict(queues_with_users[i], queues_with_users[j]))
-                    {
-                        // their sum is the new max
-                        max = queues_with_users[i]->getSize() + queues_with_users[j]->getSize();
-
-                        // store them so we know which lights to change
-                        index_q1 = i;
-                        index_q2 = j;
-                    }
-                }
-            }
-
-            // assert indexes are valid before using
-            assert (index_q1 >= 0 && index_q1 < queues_with_users.size());
-            assert (index_q2 >= 0 && index_q2 < queues_with_users.size());
-            // change the lights of the two non-conflicting lanes with the most users between them
-            changeLightsInIntersection(&T_style, queues_with_users[index_q1], queues_with_users[index_q2]);
-        }
-
-        // GREEN LIGHT: it's time to let users with a green light pass through the intersection
-        // currently, we are allowing one user per green light per time step
-        // update queues with green lights to remove the first user in line.
-        for (Light_Direction_Package* ldp: T_style.origin_directions)
-        {
-            for (Traffic_Queue* tq: *ldp->getLanes())
-            {
-                // If the lane has a green light, remove first user in line
-                if (tq->getColor().compare("green") == 0)
-                    tq->removeUserFromFront();
-            }
-        }
-
-        // increment time
-        CURRENT_TIME++;
-    }
-
-    // Close input file
-    infile.close();
-
-    /******************************
-     JAMES & JON
-     *****************************/
-    // Output results to file
-
-    /**********************
-     OLD CODE: Get Users in Single Queue
-     **********************
-
-        vector<User> allUsers;
-        User tempUser;
+	}
 
 
-        std::string a, b;
-        while(infile >> a >> b)
-        {
-            User tempUser;
-            //a = descriptor
-            //b = variable
-            //Adjust appropriate variable based on the descriptor that was read in.
-            if (a ==  "Car:")
-            {
-                tempUser.setId(stoi(b));
-            }
-            else if (a == "Time:")
-            {
-                tempUser.setTimeArrived(stod(b));
+	// Close input file
+	infile.close();
+	
 
-            }
-            else if (a == "Direction:")
-            {
-                tempUser.setHeading(b);
-            }
-            else if (a == "Speed:")
-            {
-                tempUser.setSpeed(stoi(b));
-            }
-            else if (a == "Emergency:")
-            {
-                tempUser.setType(b);
-                allUsers.push_back(tempUser);
-            }
+		
+	while (tempUser->getTimeArrived() > CURRENT_TIME )
+	{
+		// Create a list of queues that have at least 1 user
+		vector <Traffic_Queue*> queues_with_users;
 
+		// For each direction of approaching traffic
+		for (Light_Direction_Package* ldp : T_style.origin_directions)
+		{
+			// For each lane approaching from the same direction
+			for (Traffic_Queue* tq : *ldp->getLanes())
+			{
+				// if there are users in the queue
+				if (tq->getSize() > 0)
+					// Add Traffic Queue to list of queues with users
+					queues_with_users.push_back(tq);
+			}
+		}
 
-        }
-        //Will have to create more traffic queues and expand logic when more directions are added.
-        Traffic_Queue newWestTQ;
-        newWestTQ.setHeading(allUsers[0].getHeading());
+		// CASE 1: users exist in only one lane
+		if (queues_with_users.size() == 1)
+		{
+			// if light is not green
+			if (queues_with_users[0]->getColor().compare("green") != 0)
+			{
+				// call light change function to turn light green
+				// for this direction and a nonconflicting direction
+				changeLightsInIntersection(&T_style, queues_with_users[0]);
+			}
+		}
 
-        for (int i = 0; i < allUsers.size(); i++)
-        {
-            if (allUsers[i].getHeading() == "west")
-            {
-                newWestTQ.addUser(allUsers[i]);
-            }
-        }
-     */
+		// CASE 2: users exist in only non-conflicting directions (e.g., East and West)
+		else if (queues_with_users.size() == 2)
+		{
+			// if two lanes are not in conflict
+			if (!isConflict(queues_with_users[0], queues_with_users[1]))
+			{
+				// call light change function to ensure both are green
+				changeLightsInIntersection(&T_style, queues_with_users[0], queues_with_users[1]);
+			}
+		}
 
-    return 0;
+		// CASE 3: users exist in conflicting directions
+		else if (queues_with_users.size() >= 2)
+		{
+			// First, check if the first user in any queue has been waiting
+			// longer than the max wait time
+			for (Traffic_Queue* tq : queues_with_users)
+			{
+				if (tq->getFirstUserInLine()->calcTimeWaited(CURRENT_TIME) >= MAX_WAIT_TIME)
+				{
+					// If a wait time reaches the max, that light must turn green next
+					changeLightsInIntersection(&T_style, tq);
+					// stop search once one is found - others will be found next time step
+					break;
+				}
+			}
 
-}
+			// If no user has been waiting too long, decide which queue(s) receive green lights by finding the two queues not in conflict with the most users between them
+			int max = 0;
+			int index_q1 = -1;
+			int index_q2 = -1;
+			for (int i = 0; i < queues_with_users.size() - 1; i++)
+			{
+				for (int j = i; j < queues_with_users.size(); j++)
+				{
+					if (queues_with_users[i]->getSize() + queues_with_users[j]->getSize() > max && !isConflict(queues_with_users[i], queues_with_users[j]))
+					{
+						// their sum is the new max
+						max = queues_with_users[i]->getSize() + queues_with_users[j]->getSize();
+
+						// store them so we know which lights to change
+						index_q1 = i;
+						index_q2 = j;
+					}
+				}
+			}
+
+			// assert indexes are valid before using
+			assert(index_q1 >= 0 && index_q1 < queues_with_users.size());
+			assert(index_q2 >= 0 && index_q2 < queues_with_users.size());
+			// change the lights of the two non-conflicting lanes with the most users between them
+			changeLightsInIntersection(&T_style, queues_with_users[index_q1], queues_with_users[index_q2]);
+		}
+
+		// GREEN LIGHT: it's time to let users with a green light pass through the intersection
+		// currently, we are allowing one user per green light per time step
+		// update queues with green lights to remove the first user in line.
+		for (Light_Direction_Package* ldp : T_style.origin_directions)
+		{
+			for (Traffic_Queue* tq : *ldp->getLanes())
+			{
+				// If the lane has a green light, remove first user in line
+				if (tq->getColor().compare("green") == 0)
+					tq->removeUserFromFront();
+			}
+		}
+
+		// increment time
+		CURRENT_TIME++;
+	}
+		return 0;
+   }
 
