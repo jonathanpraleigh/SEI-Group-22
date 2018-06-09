@@ -123,6 +123,12 @@ void changeLightsInIntersection (Intersection* T, Traffic_Queue* tq1, Traffic_Qu
 
 int main(int argc, const char * argv[])
 {
+    /****************************
+     Variables to hold test data
+    *****************************/
+    int carsDeparted = 0;
+    int carsArrived = 0;
+	
     /**********************
      Create T intersection
      **********************/
@@ -154,8 +160,7 @@ int main(int argc, const char * argv[])
 
     // Print for debugging
     T_style.print();
-
-
+	
     /**********************
      Set up Strategy
      **********************/
@@ -233,6 +238,8 @@ int main(int argc, const char * argv[])
 				{
 					// Add Traffic Queue to list of queues with users
 					tq->addUser(*tempUser);
+					// Increment user arrived count for testing purposes.
+					carsArrived++;
 				}
 			}
 
@@ -338,6 +345,8 @@ int main(int argc, const char * argv[])
 				// If the lane has a green light, remove first user in line
 				if (tq->getColor().compare("green") == 0)
 					tq->removeUserFromFront();
+					// Increment user departed count for test purposes.
+					carsDeparted++;
 			}
 		}
 
