@@ -9,7 +9,6 @@
 #ifndef Light_Direction_Package_hpp
 #define Light_Direction_Package_hpp
 
-#include <stdio.h>
 #include <vector>
 #include "Traffic_Queue.hpp"
 #include "Speed_Listener.hpp"
